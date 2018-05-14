@@ -28,7 +28,7 @@ dependencies:
 - bytestring
 - transformers
 - containers
-
+- http-types
 
 library:
   source-dirs: src

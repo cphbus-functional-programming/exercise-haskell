@@ -2,6 +2,7 @@
 {-# LANGUAGE DeriveGeneric #-}
 module Main where
 
+import Network.HTTP.Types.Status
 import Network.Wai.Middleware.Cors
 import Web.Scotty
 import Prelude hiding (id)
@@ -49,7 +50,7 @@ main = do
         Just member ->
           json member
         Nothing ->
-          html "Provide a valid id"
+          status status400
 
 insertMember :: Member -> IntMap Member -> (Member, IntMap Member)
 insertMember member intMap =
