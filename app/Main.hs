@@ -13,6 +13,7 @@ import Data.IntMap (IntMap)
 import qualified Data.IntMap.Strict as IntMap
 
 import Control.Concurrent (newMVar, readMVar, putMVar, takeMVar)
+import Control.Monad.Trans.Class (lift)
 
 data Member = Member
   { id :: Int
@@ -34,6 +35,9 @@ main = do
     get "/hello/:name" $ do
       name <- param "name"
       html $ mconcat [ "<h1>Hello ", name, " from Scotty!</h1><hr/>"]
+    get "/member/count" $  do
+      members <- lift $ readMVar membersRef
+      json (IntMap.size members)
 
 insertMember :: Member -> IntMap Member -> (Member, IntMap Member)
 insertMember member intMap =
