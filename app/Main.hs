@@ -41,6 +41,15 @@ main = do
     get "/member" $ do
       members <- lift $ readMVar membersRef
       json $ IntMap.elems members
+    get "/member/:id" $ do
+      idText <- param "id"
+      let id = (read idText) ::Int
+      members <- lift $ readMVar membersRef
+      case IntMap.lookup id members of
+        Just member ->
+          json member
+        Nothing ->
+          html "Provide a valid id"
 
 insertMember :: Member -> IntMap Member -> (Member, IntMap Member)
 insertMember member intMap =
