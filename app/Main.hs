@@ -51,6 +51,13 @@ main = do
           json member
         Nothing ->
           status status400
+    post "/member" $ do
+      member <- jsonData
+      beforeMembers <- lift $ takeMVar membersRef
+      let (updatedMember, afterMembers) = insertMember member beforeMembers
+      lift $ putMVar membersRef afterMembers
+      json updatedMember
+
 
 insertMember :: Member -> IntMap Member -> (Member, IntMap Member)
 insertMember member intMap =
