@@ -12,6 +12,8 @@ import Data.Aeson (ToJSON, FromJSON)
 import Data.IntMap (IntMap)
 import qualified Data.IntMap.Strict as IntMap
 
+import Control.Concurrent (newMVar, readMVar, putMVar, takeMVar)
+
 data Member = Member
   { id :: Int
   , name :: String
@@ -24,6 +26,9 @@ instance FromJSON Member
 
 main :: IO ()
 main = do
+  membersRef <- newMVar $ IntMap.fromList [ (1, Member 1 "Kurt" "kurt@email.com")
+                                          , (2, Member 2 "Sonja" "sonja@post.dk")
+                                          ]
   scotty 9000 $ do
     middleware simpleCors
     get "/hello/:name" $ do
