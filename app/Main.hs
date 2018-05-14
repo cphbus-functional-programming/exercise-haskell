@@ -4,6 +4,7 @@ module Main where
 
 import Network.Wai.Middleware.Cors
 import Web.Scotty
+import Prelude hiding (id)
 
 import GHC.Generics
 import Data.Aeson (ToJSON, FromJSON)
