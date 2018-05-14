@@ -38,6 +38,9 @@ main = do
     get "/member/count" $  do
       members <- lift $ readMVar membersRef
       json (IntMap.size members)
+    get "/member" $ do
+      members <- lift $ readMVar membersRef
+      json $ IntMap.elems members
 
 insertMember :: Member -> IntMap Member -> (Member, IntMap Member)
 insertMember member intMap =
